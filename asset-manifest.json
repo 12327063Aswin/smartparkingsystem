@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/smartparkingsystem/static/css/main.2084995b.css",
+    "main.js": "/smartparkingsystem/static/js/main.5e11331d.js",
+    "index.html": "/smartparkingsystem/index.html",
+    "main.2084995b.css.map": "/smartparkingsystem/static/css/main.2084995b.css.map",
+    "main.5e11331d.js.map": "/smartparkingsystem/static/js/main.5e11331d.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.2084995b.css",
+    "static/js/main.5e11331d.js"
+  ]
+}
