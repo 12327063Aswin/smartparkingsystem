@@ -1,0 +1,29 @@
+.welcome-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: #3498db;
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.timer-container {
+  text-align: center;
+  margin-top: 50px;
+}
+
+.timer-options button {
+  margin: 10px;
+  padding: 10px 20px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.custom-timer input {
+  margin: 5px;
+  padding: 8px;
+  width: 80px;
+}
