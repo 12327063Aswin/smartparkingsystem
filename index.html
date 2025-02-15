@@ -1,136 +1,131 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart Parking System</title>
-<style>
-  body { 
-    background-color: #121212; 
-    color: #ffffff; 
-    font-family: Arial, sans-serif; 
-    display: flex; 
-    justify-content: center; 
-    align-items: center; 
-    height: 100vh; 
-    flex-direction: column; 
-    text-align: center; 
-    animation: fadeIn 2s ease-in-out; 
-  }
-  h1 { 
-    font-size: 3em; 
-    font-weight: bold; 
-    margin-bottom: 20px; 
-    animation: fadeIn 2s ease-in-out; 
-  }
-  .hidden { 
-    display: none; 
-  }
-  button { 
-    background-color: #ff9800; 
-    color: white; 
-    border: none; 
-    padding: 10px 20px; 
-    font-size: 1.2em; 
-    margin: 10px; 
-    border-radius: 5px; 
-    cursor: pointer; 
-    transition: background 0.3s; 
-  }
-  button:hover { 
-    background-color: #e68900; 
-  }
-  input { 
-    padding: 10px; 
-    font-size: 1em; 
-    border: 1px solid #fff; 
-    border-radius: 5px; 
-    margin: 5px; 
-    background-color: #333; 
-    color: white; 
-  }
-  #countdown { 
-    font-size: 1.5em; 
-    margin-top: 20px; 
-    font-weight: bold; 
-    color: #ff9800; 
-    position: absolute; 
-    left: 20px; 
-    top: 20px; 
-  }
-  @keyframes fadeIn { 
-    from { 
-      opacity: 0; 
-    } 
-    to { 
-      opacity: 1; 
-    } 
-  }
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Parking System</title>
+    <style>
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+            cursor: pointer;
+        }
+        h1 {
+            font-size: 3em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
+        .hidden {
+            display: none;
+        }
+        button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background-color: #e68900;
+        }
+        input {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            margin: 5px;
+            background-color: #333;
+            color: white;
+        }
+        #countdown {
+            font-size: 1.5em;
+            margin-top: 20px;
+            font-weight: bold;
+            color: #ff9800;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
 </head>
-<body>
-<div id="welcome-screen">
-  <h1>Welcome to Smart Parking System</h1>
-</div>
-<div id="timer-screen" class="hidden">
-  <h2>Select Parking Duration</h2>
-  <button onclick="setTimer(1)">1 Hour</button>
-  <button onclick="setTimer(2)">2 Hours</button>
-  <button onclick="setTimer(4)">4 Hours</button>
-  <button onclick="setTimer(6)">6 Hours</button>
-  <button onclick="setTimer(8)">8 Hours</button>
-  <br><br>
-  <input type="number" id="custom-hours" placeholder="Hours" min="0">
-  <input type="number" id="custom-minutes" placeholder="Minutes" min="0" max="59">
-  <button onclick="setCustomTimer()">Set</button>
-  <h3 id="countdown"></h3>
-</div>
-<script>
-  window.onload = function() {
-    const speech = new SpeechSynthesisUtterance("Welcome to Smart Parking System");
-    speech.lang = "en-US";
-    speech.rate = 1;
-    window.speechSynthesis.speak(speech);
+<body onload="playWelcomeMessage()">
+    <div id="welcome-screen">
+        <h1>Welcome to Smart Parking System</h1>
+        <p>(Loading...)</p>
+    </div>
+    
+    <div id="timer-screen" class="hidden">
+        <h2>Select Parking Duration</h2>
+        <button onclick="setTimer(1)">1 Hour</button>
+        <button onclick="setTimer(2)">2 Hours</button>
+        <button onclick="setTimer(4)">4 Hours</button>
+        <button onclick="setTimer(6)">6 Hours</button>
+        <button onclick="setTimer(8)">8 Hours</button>
+        <br><br>
+        <input type="number" id="custom-hours" placeholder="Hours" min="0">
+        <input type="number" id="custom-minutes" placeholder="Minutes" min="0" max="59">
+        <button onclick="setCustomTimer()">Set</button>
+        <h3 id="countdown"></h3>
+    </div>
 
-    setTimeout(showTimerScreen, 5000); // Move to timer screen after 3 seconds
-  };
+    <script>
+        function playWelcomeMessage() {
+            const message = new SpeechSynthesisUtterance("Welcome to Smart Parking System");
+            message.lang = "en-US";
+            message.rate = 1;
+            window.speechSynthesis.speak(message);
+            setTimeout(showTimerScreen, 5000);
+        }
+        
+        function showTimerScreen() {
+            document.getElementById("welcome-screen").classList.add("hidden");
+            document.getElementById("timer-screen").classList.remove("hidden");
+        }
+        
+        function setTimer(hours) {
+            startCountdown(hours * 3600);
+        }
 
-  function showTimerScreen() {
-    document.getElementById("welcome-screen").classList.add("hidden");
-    document.getElementById("timer-screen").classList.remove("hidden");
-  }
+        function setCustomTimer() {
+            const hours = parseInt(document.getElementById("custom-hours").value) || 0;
+            const minutes = parseInt(document.getElementById("custom-minutes").value) || 0;
+            const totalSeconds = (hours * 3600) + (minutes * 60);
+            startCountdown(totalSeconds);
+        }
 
-  function setTimer(hours) {
-    startCountdown(hours * 3600);
-  }
-
-  function setCustomTimer() {
-    const hours = parseInt(document.getElementById("custom-hours").value) || 0;
-    const minutes = parseInt(document.getElementById("custom-minutes").value) || 0;
-    const totalSeconds = (hours * 3600) + (minutes * 60);
-    startCountdown(totalSeconds);
-  }
-
-  function startCountdown(seconds) {
-    let remainingTime = seconds;
-    const countdownElement = document.getElementById("countdown");
-
-    function updateCountdown() {
-      if (remainingTime <= 0) {
-        countdownElement.innerText = "Time is up! Closing...";
-        setTimeout(() => window.close(), 2000);
-        return;
-      }
-      let hours = Math.floor(remainingTime / 3600);
-      let minutes = Math.floor((remainingTime % 3600) / 60);
-      let seconds = remainingTime % 60;
-      countdownElement.innerText = `${hours}h ${minutes}m ${seconds}s remaining`;
-      remainingTime--;
-      setTimeout(updateCountdown, 1000);
-    }
-
-    updateCountdown();
-  }
-</script>
+        function startCountdown(seconds) {
+            let remainingTime = seconds;
+            const countdownElement = document.getElementById("countdown");
+            
+            function updateCountdown() {
+                if (remainingTime <= 0) {
+                    countdownElement.innerText = "Time is up! Closing...";
+                    setTimeout(() => window.close(), 2000);
+                    return;
+                }
+                let hours = Math.floor(remainingTime / 3600);
+                let minutes = Math.floor((remainingTime % 3600) / 60);
+                let seconds = remainingTime % 60;
+                countdownElement.innerText = `${hours}h ${minutes}m ${seconds}s remaining`;
+                remainingTime--;
+                setTimeout(updateCountdown, 1000);
+            }
+            updateCountdown();
+        }
+    </script>
 </body>
 </html>
