@@ -16,6 +16,7 @@
             flex-direction: column;
             text-align: center;
             animation: fadeIn 2s ease-in-out;
+            cursor: pointer;
         }
         h1 {
             font-size: 3em;
@@ -61,9 +62,10 @@
         }
     </style>
 </head>
-<body>
+<body onclick="startWelcome()">
     <div id="welcome-screen">
         <h1>Welcome to Smart Parking System</h1>
+        <p>(Click anywhere to continue)</p>
     </div>
     
     <div id="timer-screen" class="hidden">
@@ -81,7 +83,8 @@
     </div>
 
     <script>
-        function speakWelcomeMessage() {
+        function startWelcome() {
+            document.body.onclick = null;
             const speech = new SpeechSynthesisUtterance("Welcome to Smart Parking System");
             speech.lang = "en-US";
             speech.rate = 1;
@@ -94,8 +97,6 @@
             document.getElementById("timer-screen").classList.remove("hidden");
         }
         
-        document.addEventListener("DOMContentLoaded", speakWelcomeMessage);
-
         function setTimer(hours) {
             startCountdown(hours * 3600);
         }
