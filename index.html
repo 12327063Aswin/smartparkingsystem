@@ -31,13 +31,20 @@
             speech.rate = 2; // Faster speed
             speech.pitch = 1; // Normal pitch
 
-            const voices = window.speechSynthesis.getVoices();
-            speech.voice = voices.find(voice => voice.name.includes("Google US English")) || voices[0];
+            function setVoice() {
+                const voices = window.speechSynthesis.getVoices();
+                speech.voice = voices.find(voice => voice.name.includes("Google US English")) || voices[0];
+                window.speechSynthesis.speak(speech);
+            }
             
-            window.speechSynthesis.speak(speech);
+            if (window.speechSynthesis.getVoices().length > 0) {
+                setVoice();
+            } else {
+                window.speechSynthesis.onvoiceschanged = setVoice;
+            }
         }
-
-        window.speechSynthesis.onvoiceschanged = speakWelcomeMessage;
+        
+        document.addEventListener("DOMContentLoaded", speakWelcomeMessage);
     </script>
 </body>
 </html>
