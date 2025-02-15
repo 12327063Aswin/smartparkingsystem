@@ -23,20 +23,21 @@
 </head>
 <body>
     <h1>Welcome to Smart Parking System</h1>
-    <audio id="welcome-audio" autoplay>
-        <source src="welcome.mp3" type="audio/mpeg">
-        Your browser does not support the audio element.
-    </audio>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const audio = document.getElementById('welcome-audio');
-            audio.play().catch(error => {
-                console.log("Audio playback failed: ", error);
-            });
-            
             // Creating and playing speech synthesis for welcome message
             const speech = new SpeechSynthesisUtterance("Welcome to Smart Parking System");
             speech.lang = "en-US";
+            speech.volume = 1; // Maximum volume
+            speech.rate = 1; // Normal speed
+            speech.pitch = 1; // Normal pitch
+            
+            // Use a high-quality voice if available
+            const voices = window.speechSynthesis.getVoices();
+            if (voices.length > 0) {
+                speech.voice = voices.find(voice => voice.name.includes("Google US English")) || voices[0];
+            }
+            
             window.speechSynthesis.speak(speech);
         });
     </script>
