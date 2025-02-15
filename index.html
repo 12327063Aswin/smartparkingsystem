@@ -47,34 +47,17 @@
         function speakWelcomeMessage() {
             const speech = new SpeechSynthesisUtterance("Welcome to Smart Parking System");
             speech.lang = "en-US";
-            speech.volume = 1; // Maximum volume
-            speech.rate = 1.5; // Slightly faster speed
-            speech.pitch = 1; // Normal pitch
-
-            function setVoice() {
-                const voices = window.speechSynthesis.getVoices();
-                if (voices.length > 0) {
-                    speech.voice = voices.find(voice => voice.name.includes("Google US English")) || voices[0];
-                    window.speechSynthesis.speak(speech);
-                    setTimeout(showTimerScreen, 3000);
-                } else {
-                    setTimeout(setVoice, 100);
-                }
-            }
-            
-            setVoice();
+            speech.rate = 1;
+            window.speechSynthesis.speak(speech);
+            setTimeout(showTimerScreen, 3000);
         }
         
-        if (window.speechSynthesis.getVoices().length > 0) {
-            speakWelcomeMessage();
-        } else {
-            window.speechSynthesis.onvoiceschanged = speakWelcomeMessage;
-        }
-
         function showTimerScreen() {
             document.getElementById("welcome-screen").classList.add("hidden");
             document.getElementById("timer-screen").classList.remove("hidden");
         }
+        
+        document.addEventListener("DOMContentLoaded", speakWelcomeMessage);
 
         function setTimer(hours) {
             startCountdown(hours * 3600);
