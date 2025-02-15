@@ -19,10 +19,30 @@
         h1 {
             font-size: 2.5em;
         }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
-    <h1>Welcome to Smart Parking System</h1>
+    <div id="welcome-screen">
+        <h1>Welcome to Smart Parking System</h1>
+    </div>
+    
+    <div id="timer-screen" class="hidden">
+        <h2>Select Parking Duration</h2>
+        <button onclick="setTimer(1)">1 Hour</button>
+        <button onclick="setTimer(2)">2 Hours</button>
+        <button onclick="setTimer(4)">4 Hours</button>
+        <button onclick="setTimer(6)">6 Hours</button>
+        <button onclick="setTimer(8)">8 Hours</button>
+        <br><br>
+        <input type="number" id="custom-hours" placeholder="Hours" min="0">
+        <input type="number" id="custom-minutes" placeholder="Minutes" min="0" max="59">
+        <button onclick="setCustomTimer()">Set</button>
+        <h3 id="countdown"></h3>
+    </div>
+
     <script>
         function speakWelcomeMessage() {
             const speech = new SpeechSynthesisUtterance("Welcome to Smart Parking System");
@@ -36,6 +56,7 @@
                 if (voices.length > 0) {
                     speech.voice = voices.find(voice => voice.name.includes("Google US English")) || voices[0];
                     window.speechSynthesis.speak(speech);
+                    setTimeout(showTimerScreen, 3000);
                 } else {
                     setTimeout(setVoice, 100);
                 }
@@ -48,6 +69,42 @@
             speakWelcomeMessage();
         } else {
             window.speechSynthesis.onvoiceschanged = speakWelcomeMessage;
+        }
+
+        function showTimerScreen() {
+            document.getElementById("welcome-screen").classList.add("hidden");
+            document.getElementById("timer-screen").classList.remove("hidden");
+        }
+
+        function setTimer(hours) {
+            startCountdown(hours * 3600);
+        }
+
+        function setCustomTimer() {
+            const hours = parseInt(document.getElementById("custom-hours").value) || 0;
+            const minutes = parseInt(document.getElementById("custom-minutes").value) || 0;
+            const totalSeconds = (hours * 3600) + (minutes * 60);
+            startCountdown(totalSeconds);
+        }
+
+        function startCountdown(seconds) {
+            let remainingTime = seconds;
+            const countdownElement = document.getElementById("countdown");
+            
+            function updateCountdown() {
+                if (remainingTime <= 0) {
+                    countdownElement.innerText = "Time is up! Closing...";
+                    setTimeout(() => window.close(), 2000);
+                    return;
+                }
+                let hours = Math.floor(remainingTime / 3600);
+                let minutes = Math.floor((remainingTime % 3600) / 60);
+                let seconds = remainingTime % 60;
+                countdownElement.innerText = `${hours}h ${minutes}m ${seconds}s remaining`;
+                remainingTime--;
+                setTimeout(updateCountdown, 1000);
+            }
+            updateCountdown();
         }
     </script>
 </body>
