@@ -33,6 +33,11 @@
             audio.play().catch(error => {
                 console.log("Audio playback failed: ", error);
             });
+            
+            // Creating and playing speech synthesis for welcome message
+            const speech = new SpeechSynthesisUtterance("Welcome to Smart Parking System");
+            speech.lang = "en-US";
+            window.speechSynthesis.speak(speech);
         });
     </script>
 </body>
