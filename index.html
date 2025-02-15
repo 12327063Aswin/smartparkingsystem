@@ -16,7 +16,6 @@
     flex-direction: column; 
     text-align: center; 
     animation: fadeIn 2s ease-in-out; 
-    cursor: pointer; 
   }
   h1 { 
     font-size: 3em; 
@@ -69,7 +68,6 @@
 <body>
 <div id="welcome-screen">
   <h1>Welcome to Smart Parking System</h1>
-  <p>(Click anywhere to continue)</p>
 </div>
 <div id="timer-screen" class="hidden">
   <h2>Select Parking Duration</h2>
@@ -90,7 +88,8 @@
     speech.lang = "en-US";
     speech.rate = 1;
     window.speechSynthesis.speak(speech);
-    setTimeout(showTimerScreen, 3000);
+
+    setTimeout(showTimerScreen, 2000); // Move to timer screen after 2 seconds
   };
 
   function showTimerScreen() {
