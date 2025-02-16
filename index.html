@@ -10,12 +10,13 @@
             color: #ffffff;
             font-family: Arial, sans-serif;
             display: flex;
-            flex-direction: column;
-            align-items: center;
             justify-content: center;
+            align-items: center;
             height: 100vh;
+            flex-direction: column;
             text-align: center;
             animation: fadeIn 2s ease-in-out;
+            position: relative;
         }
         h1, h2 {
             font-size: 2.5em;
@@ -57,15 +58,15 @@
             top: 20px;
             left: 20px;
         }
-        #floor-plan {
+        #parking-map {
             width: 80%;
-            height: 50vh;
+            height: 300px;
             background-color: #222;
-            border: 2px solid #ff9800;
-            margin-top: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
+            border: 2px solid #ff9800;
+            border-radius: 10px;
             color: white;
             font-size: 1.5em;
         }
@@ -96,8 +97,11 @@
         </div>
         <h3 id="countdown"></h3>
     </div>
-    
-    <div id="floor-plan">Parking Floor Plan</div>
+
+    <div id="parking-map-screen" class="hidden">
+        <h2>Parking Floor Plan</h2>
+        <div id="parking-map">Parking Slot Map</div>
+    </div>
 
     <script>
         function speakMessage(text) {
@@ -141,9 +145,9 @@
             
             function updateCountdown() {
                 if (remainingTime <= 0) {
-                    countdownElement.innerText = "Time is up! Closing...";
-                    speakMessage("Time is up! Closing the page.");
-                    setTimeout(() => window.location.href = 'parking_map.html', 2000);
+                    countdownElement.innerText = "Time is up! Showing parking map...";
+                    speakMessage("Time is up! Showing parking map.");
+                    setTimeout(showParkingMap, 2000);
                     return;
                 }
                 let hours = Math.floor(remainingTime / 3600);
@@ -154,6 +158,11 @@
                 setTimeout(updateCountdown, 1000);
             }
             updateCountdown();
+        }
+
+        function showParkingMap() {
+            document.getElementById("timer-screen").classList.add("hidden");
+            document.getElementById("parking-map-screen").classList.remove("hidden");
         }
     </script>
 </body>
