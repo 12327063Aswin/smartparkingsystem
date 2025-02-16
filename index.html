@@ -65,6 +65,7 @@
 <body onload="playWelcomeMessage()">
     <div id="welcome-screen">
         <h1>Welcome to Smart Parking System</h1>
+        <p>(Loading...)</p>
     </div>
     
     <div id="timer-screen" class="hidden">
@@ -82,11 +83,15 @@
     </div>
 
     <script>
-        function playWelcomeMessage() {
-            const message = new SpeechSynthesisUtterance("Welcome to Smart Parking System");
+        function speakMessage(text) {
+            const message = new SpeechSynthesisUtterance(text);
             message.lang = "en-US";
             message.rate = 1;
             window.speechSynthesis.speak(message);
+        }
+        
+        function playWelcomeMessage() {
+            speakMessage("Welcome to Smart Parking System");
             setTimeout(showTimerScreen, 5000);
         }
         
@@ -96,6 +101,7 @@
         }
         
         function setTimer(hours) {
+            speakMessage(`Timer set for ${hours} hours`);
             startCountdown(hours * 3600);
         }
 
@@ -103,6 +109,7 @@
             const hours = parseInt(document.getElementById("custom-hours").value) || 0;
             const minutes = parseInt(document.getElementById("custom-minutes").value) || 0;
             const totalSeconds = (hours * 3600) + (minutes * 60);
+            speakMessage(`Timer set for ${hours} hours and ${minutes} minutes`);
             startCountdown(totalSeconds);
         }
 
@@ -113,6 +120,7 @@
             function updateCountdown() {
                 if (remainingTime <= 0) {
                     countdownElement.innerText = "Time is up! Closing...";
+                    speakMessage("Time is up! Closing the page.");
                     setTimeout(() => window.close(), 2000);
                     return;
                 }
