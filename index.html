@@ -75,6 +75,85 @@
             from { opacity: 0; }
             to { opacity: 1; }
         }
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 10px;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #000;
+        }
+        .room-box { background-color: #ccc; }
+        .parking-box { background-color: #4CAF50; }
+        .occupied-box { background-color: #FF0000; }
+        .road-box { background-color: #888; }
+        .container {
+            display: grid;
+            grid-template-columns: repeat(5, 150px);
+            grid-template-rows: repeat(4, 150px);
+            gap: 10px;
+            background-color: #666;
+            padding: 20px;
+            border: 2px solid #000;
+        }
+        .room {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #ccc;
+            border: 2px solid #333;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            padding: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .room:hover {
+            transform: scale(1.05);
+            background-color: #bbb;
+        }
+        .parking-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 3px;
+            width: 100%;
+            margin-top: 5px;
+            justify-items: center;
+        }
+        .parking-spot {
+            width: 30px;
+            height: 50px;
+            background-color: #4CAF50;
+            border: 1px solid #000;
+        }
+        .camera-feed {
+            width: 100px;
+            height: 60px;
+            background-color: black;
+            margin-top: 5px;
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        video {
+            width: 100px;
+            height: 60px;
+            object-fit: cover;
+        }
     </style>
 </head>
 <body onload="playWelcomeMessage()">
@@ -101,7 +180,13 @@
     <div id="parking-plan" class="hidden">
         <h2>Parking Floor Plan</h2>
         <h3 id="countdown"></h3>
-        <div id="parking-map">Parking Slot Map</div>
+        <div class="legend">
+            <div class="legend-item"><div class="legend-box room-box"></div> Room</div>
+            <div class="legend-item"><div class="legend-box parking-box"></div> Available Parking</div>
+            <div class="legend-item"><div class="legend-box occupied-box"></div> Occupied Parking</div>
+            <div class="legend-item"><div class="legend-box road-box"></div> Road</div>
+        </div>
+        <div class="container" id="floorPlan"></div>
     </div>
     
     <script>
@@ -162,7 +247,71 @@
                 setTimeout(updateCountdown, 1000);
             }
             updateCountdown();
+            initFloorPlan(); // Initialize floor plan after countdown starts
         }
+        
+        const floorPlan = document.getElementById("floorPlan");
+        function initFloorPlan() {
+            let roomCount = 1;
+            for (let row = 0; row < 4; row++) {
+                for (let col = 0; col < 5; col++) {
+                    const cell = document.createElement("div");
+                    cell.classList.add("room");
+                    cell.innerText = `Room ${roomCount}`;
+                    
+                    // Make rooms interactive
+                    cell.addEventListener("click", () => {
+                        alert(`Room ${roomCount}:\nStatus: Available`);
+                    });
+                    
+                    // Create parking spots
+                    const parkingContainer = document.createElement("div");
+                    parkingContainer.classList.add("parking-container");
+                    for (let i = 0; i < 8; i++) {
+                        const parkingSpot = document.createElement("div");
+                        parkingSpot.classList.add("parking-spot");
+                        parkingSpot.dataset.spotId = `${roomCount}-${i}`;
+                        parkingContainer.appendChild(parkingSpot);
+                    }
+                    
+                    // Create real camera feed
+                    const cameraFeed = document.createElement("video");
+                    cameraFeed.setAttribute("id", `camera-${roomCount}`);
+                    cameraFeed.setAttribute("autoplay", "");
+                    cameraFeed.setAttribute("playsinline", "");
+                    
+                    cell.appendChild(parkingContainer);
+                    cell.appendChild(cameraFeed);
+                    floorPlan.appendChild(cell);
+                    roomCount++;
+                }
+            }
+        }
+
+        // Function to access real camera
+        async function startCamera() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+                document.querySelectorAll("video").forEach(video => {
+                    video.srcObject = stream;
+                });
+            } catch (err) {
+                console.error("Camera access denied: ", err);
+            }
+        }
+        startCamera();
+        
+        // Simulate real-time parking updates
+        function updateParkingStatus() {
+            document.querySelectorAll(".parking-spot").forEach(spot => {
+                const occupied = Math.random() > 0.7; // Simulate 30% occupancy
+                spot.style.backgroundColor = occupied ? "#FF0000" : "#4CAF50";
+            });
+        }
+        
+        // Update parking every 5 seconds
+        setInterval(updateParkingStatus, 5000);
+        updateParkingStatus();
     </script>
 </body>
 </html>
