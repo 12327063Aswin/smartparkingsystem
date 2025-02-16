@@ -18,8 +18,8 @@
             animation: fadeIn 2s ease-in-out;
             cursor: pointer;
         }
-        h1 {
-            font-size: 3em;
+        h1, h2 {
+            font-size: 2.5em;
             font-weight: bold;
             margin-bottom: 20px;
             animation: fadeIn 2s ease-in-out;
@@ -65,7 +65,6 @@
 <body onload="playWelcomeMessage()">
     <div id="welcome-screen">
         <h1>Welcome to Smart Parking System</h1>
-        <p>(Loading...)</p>
     </div>
     
     <div id="timer-screen" class="hidden">
@@ -76,9 +75,12 @@
         <button onclick="setTimer(6)">6 Hours</button>
         <button onclick="setTimer(8)">8 Hours</button>
         <br><br>
-        <input type="number" id="custom-hours" placeholder="Hours" min="0">
-        <input type="number" id="custom-minutes" placeholder="Minutes" min="0" max="59">
-        <button onclick="setCustomTimer()">Set</button>
+        <button onclick="showCustomInput()">Custom</button>
+        <div id="custom-input" class="hidden">
+            <input type="number" id="custom-hours" placeholder="Hours" min="0">
+            <input type="number" id="custom-minutes" placeholder="Minutes" min="0" max="59">
+            <button onclick="setCustomTimer()">Set</button>
+        </div>
         <h3 id="countdown"></h3>
     </div>
 
@@ -92,12 +94,17 @@
         
         function playWelcomeMessage() {
             speakMessage("Welcome to Smart Parking System");
-            setTimeout(showTimerScreen, 5000);
+            setTimeout(showTimerScreen, 4000);
         }
         
         function showTimerScreen() {
             document.getElementById("welcome-screen").classList.add("hidden");
             document.getElementById("timer-screen").classList.remove("hidden");
+            speakMessage("Select Parking Duration");
+        }
+
+        function showCustomInput() {
+            document.getElementById("custom-input").classList.remove("hidden");
         }
         
         function setTimer(hours) {
@@ -121,7 +128,7 @@
                 if (remainingTime <= 0) {
                     countdownElement.innerText = "Time is up! Closing...";
                     speakMessage("Time is up! Closing the page.");
-                    setTimeout(() => window.close(), 2000);
+                    setTimeout(() => window.location.href = 'parking_map.html', 2000);
                     return;
                 }
                 let hours = Math.floor(remainingTime / 3600);
