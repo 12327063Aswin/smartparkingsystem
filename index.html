@@ -10,13 +10,12 @@
             color: #ffffff;
             font-family: Arial, sans-serif;
             display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
             flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
             text-align: center;
             animation: fadeIn 2s ease-in-out;
-            cursor: pointer;
         }
         h1, h2 {
             font-size: 2.5em;
@@ -52,9 +51,23 @@
         }
         #countdown {
             font-size: 1.5em;
-            margin-top: 20px;
             font-weight: bold;
             color: #ff9800;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+        #floor-plan {
+            width: 80%;
+            height: 50vh;
+            background-color: #222;
+            border: 2px solid #ff9800;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5em;
         }
         @keyframes fadeIn {
             from { opacity: 0; }
@@ -83,6 +96,8 @@
         </div>
         <h3 id="countdown"></h3>
     </div>
+    
+    <div id="floor-plan">Parking Floor Plan</div>
 
     <script>
         function speakMessage(text) {
