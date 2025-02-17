@@ -168,8 +168,8 @@
             object-fit: cover;
         }
 
-        /* Exits */
-        .exit {
+        /* Road exits inside the floor plan */
+        .road-exit {
             background-color: #888;
             color: white;
             font-size: 12px;
@@ -177,11 +177,15 @@
             text-align: center;
             padding: 5px;
             position: absolute;
+            width: 80px;
+            height: 40px;
+            border-radius: 5px;
         }
-        .exit-left { left: -30px; top: 50%; transform: translateY(-50%); }
-        .exit-right { right: -30px; top: 50%; transform: translateY(-50%); }
-        .exit-top { top: -30px; left: 50%; transform: translateX(-50%); }
-        .exit-bottom { bottom: -30px; left: 50%; transform: translateX(-50%); }
+        .road-exit-left { left: -40px; top: 50%; transform: translateY(-50%); }
+        .road-exit-right { right: -40px; top: 50%; transform: translateY(-50%); }
+        .road-exit-top { top: -40px; left: 50%; transform: translateX(-50%); }
+        .road-exit-bottom { bottom: -40px; left: 50%; transform: translateX(-50%); }
+
     </style>
 </head>
 <body onload="playWelcomeMessage()">
@@ -324,18 +328,18 @@
                 }
             }
 
-            // Add Exits
-            const exits = [
-                { className: 'exit-left', position: 'left' },
-                { className: 'exit-right', position: 'right' },
-                { className: 'exit-top', position: 'top' },
-                { className: 'exit-bottom', position: 'bottom' }
+            // Add road exits inside the floor plan
+            const roadExits = [
+                { className: 'road-exit-left', position: 'left' },
+                { className: 'road-exit-right', position: 'right' },
+                { className: 'road-exit-top', position: 'top' },
+                { className: 'road-exit-bottom', position: 'bottom' }
             ];
 
-            exits.forEach(exit => {
+            roadExits.forEach(exit => {
                 const exitElement = document.createElement('div');
-                exitElement.classList.add('exit', exit.className);
-                exitElement.innerText = 'Exit';
+                exitElement.classList.add('road-exit', exit.className);
+                exitElement.innerText = 'Road Exit';
                 floorPlan.appendChild(exitElement);
             });
         }
