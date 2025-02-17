@@ -104,6 +104,7 @@
             background-color: #666;
             padding: 20px;
             border: 2px solid #000;
+            position: relative;
         }
         .room {
             display: flex;
@@ -166,6 +167,21 @@
             height: 60px;
             object-fit: cover;
         }
+
+        /* Exits */
+        .exit {
+            background-color: #888;
+            color: white;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            padding: 5px;
+            position: absolute;
+        }
+        .exit-left { left: -30px; top: 50%; transform: translateY(-50%); }
+        .exit-right { right: -30px; top: 50%; transform: translateY(-50%); }
+        .exit-top { top: -30px; left: 50%; transform: translateX(-50%); }
+        .exit-bottom { bottom: -30px; left: 50%; transform: translateX(-50%); }
     </style>
 </head>
 <body onload="playWelcomeMessage()">
@@ -307,33 +323,20 @@
                     roomCount++;
                 }
             }
-        }
 
-        // Function to access real camera
-        async function startCamera() {
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-                document.querySelectorAll("video").forEach(video => {
-                    video.srcObject = stream;
-                });
-            } catch (err) {
-                console.error("Camera access denied: ", err);
-            }
-        }
-        startCamera();
-        
-        // Simulate real-time parking updates
-        function updateParkingStatus() {
-            document.querySelectorAll(".parking-spot").forEach(spot => {
-                const occupied = Math.random() > 0.7; // Simulate 30% occupancy
-                const booked = Math.random() > 0.5; // Simulate 50% booked spots
-                if (occupied) {
-                    spot.style.backgroundColor = "#FF0000"; // Red for occupied
-                } else if (booked) {
-                    spot.style.backgroundColor = "#2196F3"; // Blue for booked
-                } else {
-                    spot.style.backgroundColor = "#4CAF50"; // Green for available
-                }
+            // Add Exits
+            const exits = [
+                { className: 'exit-left', position: 'left' },
+                { className: 'exit-right', position: 'right' },
+                { className: 'exit-top', position: 'top' },
+                { className: 'exit-bottom', position: 'bottom' }
+            ];
+
+            exits.forEach(exit => {
+                const exitElement = document.createElement('div');
+                exitElement.classList.add('exit', exit.className);
+                exitElement.innerText = 'Exit';
+                floorPlan.appendChild(exitElement);
             });
         }
 
