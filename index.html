@@ -93,6 +93,7 @@
         }
         .room-box { background-color: #ccc; }
         .parking-box { background-color: #4CAF50; }
+        .booked-box { background-color: #2196F3; }
         .occupied-box { background-color: #FF0000; }
         .road-box { background-color: #888; }
         .container {
@@ -137,6 +138,17 @@
             height: 50px;
             background-color: #4CAF50;
             border: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        .parking-spot:hover {
+            background-color: #e68900;
         }
         .camera-feed {
             width: 100px;
@@ -183,6 +195,7 @@
         <div class="legend">
             <div class="legend-item"><div class="legend-box room-box"></div> Room</div>
             <div class="legend-item"><div class="legend-box parking-box"></div> Available Parking</div>
+            <div class="legend-item"><div class="legend-box booked-box"></div> Booked Parking</div>
             <div class="legend-item"><div class="legend-box occupied-box"></div> Occupied Parking</div>
             <div class="legend-item"><div class="legend-box road-box"></div> Road</div>
         </div>
@@ -235,8 +248,10 @@
             function updateCountdown() {
                 if (remainingTime <= 0) {
                     countdownElement.innerText = "Time is up! Closing...";
-                    speakMessage("Time is up! Closing the page.");
-                    setTimeout(() => window.location.href = 'parking_map.html', 2000);
+                    speakMessage("Time is up! Closing the window.");
+                    setTimeout(() => {
+                        window.close(); // This will close the window after the timer runs out
+                    }, 2000);
                     return;
                 }
                 let hours = Math.floor(remainingTime / 3600);
@@ -253,24 +268,30 @@
         const floorPlan = document.getElementById("floorPlan");
         function initFloorPlan() {
             let roomCount = 1;
+            let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'; // To assign alphabetical room names
             for (let row = 0; row < 4; row++) {
                 for (let col = 0; col < 5; col++) {
                     const cell = document.createElement("div");
                     cell.classList.add("room");
-                    cell.innerText = `Room ${roomCount}`;
+                    cell.innerText = `Room ${alphabet[roomCount-1]}`;
                     
                     // Make rooms interactive
                     cell.addEventListener("click", () => {
-                        alert(`Room ${roomCount}:\nStatus: Available`);
+                        alert(`Room ${alphabet[roomCount-1]}:\nStatus: Available`);
                     });
                     
-                    // Create parking spots
+                    // Create parking spots with unique identifiers for each room
                     const parkingContainer = document.createElement("div");
                     parkingContainer.classList.add("parking-container");
+                    
                     for (let i = 0; i < 8; i++) {
                         const parkingSpot = document.createElement("div");
                         parkingSpot.classList.add("parking-spot");
-                        parkingSpot.dataset.spotId = `${roomCount}-${i}`;
+                        parkingSpot.dataset.spotId = `${alphabet[roomCount-1]}${i+1}`; // Parking spots ordered alphabetically
+                        parkingSpot.innerText = `${alphabet[roomCount-1]}${i+1}`; // Labeling parking spots uniquely for each room
+                        parkingSpot.addEventListener("click", () => {
+                            bookParkingSpot(parkingSpot);
+                        });
                         parkingContainer.appendChild(parkingSpot);
                     }
                     
@@ -305,10 +326,30 @@
         function updateParkingStatus() {
             document.querySelectorAll(".parking-spot").forEach(spot => {
                 const occupied = Math.random() > 0.7; // Simulate 30% occupancy
-                spot.style.backgroundColor = occupied ? "#FF0000" : "#4CAF50";
+                const booked = Math.random() > 0.5; // Simulate 50% booked spots
+                if (occupied) {
+                    spot.style.backgroundColor = "#FF0000"; // Red for occupied
+                } else if (booked) {
+                    spot.style.backgroundColor = "#2196F3"; // Blue for booked
+                } else {
+                    spot.style.backgroundColor = "#4CAF50"; // Green for available
+                }
             });
         }
-        
+
+        // Function to book a parking spot
+        function bookParkingSpot(spot) {
+            if (spot.style.backgroundColor === 'rgb(76, 175, 80)') { // Available spot (green)
+                spot.style.backgroundColor = "#2196F3"; // Change to booked (blue)
+                alert(`Parking Spot ${spot.dataset.spotId} has been booked.`);
+            } else if (spot.style.backgroundColor === 'rgb(33, 150, 243)') { // Booked spot (blue)
+                spot.style.backgroundColor = "#FF0000"; // Change to occupied (red)
+                alert(`You have parked in Parking Spot ${spot.dataset.spotId}.`);
+            } else {
+                alert("This spot is already occupied.");
+            }
+        }
+
         // Update parking every 5 seconds
         setInterval(updateParkingStatus, 5000);
         updateParkingStatus();
