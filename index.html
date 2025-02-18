@@ -230,7 +230,16 @@ video {
             <button onclick="setCustomTimer()">Set</button>
         </div>
     </div>
-    
+
+    <!-- New Slide for Exit Entry -->
+    <div id="exit-entry-screen" class="hidden">
+        <h2>Select Exit Entry</h2>
+        <button onclick="selectExit('Exits(1)')">Exits(1)</button>
+        <button onclick="selectExit('Exits(2)')">Exits(2)</button>
+        <button onclick="selectExit('Exits(3)')">Exits(3)</button>
+        <button onclick="selectExit('Exits(4)')">Exits(4)</button>
+    </div>
+
     <div id="parking-plan" class="hidden">
         <h2>Parking Floor Plan</h2>
         <h3 id="countdown"></h3>
@@ -243,7 +252,7 @@ video {
         </div>
         <div class="container" id="floorPlan"></div>
     </div>
-    
+
     <script>
         function speakMessage(text) {
             const message = new SpeechSynthesisUtterance(text);
@@ -282,7 +291,7 @@ video {
 
         function startCountdown(seconds) {
             document.getElementById("timer-screen").classList.add("hidden");
-            document.getElementById("parking-plan").classList.remove("hidden");
+            document.getElementById("exit-entry-screen").classList.remove("hidden");
             
             let remainingTime = seconds;
             const countdownElement = document.getElementById("countdown");
@@ -304,9 +313,15 @@ video {
                 setTimeout(updateCountdown, 1000);
             }
             updateCountdown();
-            initFloorPlan(); // Initialize floor plan after countdown starts
         }
         
+        function selectExit(exit) {
+            speakMessage(`${exit} selected. Moving to parking floor plan.`);
+            document.getElementById("exit-entry-screen").classList.add("hidden");
+            document.getElementById("parking-plan").classList.remove("hidden");
+            initFloorPlan(); // Initialize the floor plan after exit selection
+        }
+
         const floorPlan = document.getElementById("floorPlan");
         function initFloorPlan() {
             let roomCount = 1;
