@@ -87,8 +87,8 @@ input {
 .legend {
     display: flex;
     gap: 20px;
-    margin-bottom: 60px; /* Increased margin-bottom for space */
-    justify-content: center; /* Center the legend items */
+    margin-bottom: 60px;
+    justify-content: center;
 }
 
 .legend-item {
@@ -108,7 +108,7 @@ input {
 .parking-box { background-color: #4CAF50; }
 .booked-box { background-color: #2196F3; }
 .occupied-box { background-color: #FF0000; }
-.road-box { background-color: #888; } /* Changed to match the road color */
+.road-box { background-color: #888; }
 
 .container {
     display: grid;
@@ -119,7 +119,7 @@ input {
     padding: 20px;
     border: 2px solid #000;
     position: relative;
-    margin-top: 40px; /* Added margin-top for space */
+    margin-top: 40px;
 }
 
 .room {
@@ -149,7 +149,7 @@ input {
     grid-template-rows: repeat(2, 1fr);
     gap: 2px;
     width: 100%;
-    margin-top: 5px; /* Added margin-top for more space between rooms and parking spots */
+    margin-top: 5px;
     justify-items: center;
 }
 
@@ -192,7 +192,7 @@ video {
 
 /* Road exits inside the floor plan */
 .road-exit {
-    background-color: #888; /* Matching color to road-box in the legend */
+    background-color: #888;
     font-size: 12px;
     font-weight: bold;
     text-align: center;
@@ -239,7 +239,7 @@ video {
             <div class="legend-item"><div class="legend-box parking-box"></div> Available Parking</div>
             <div class="legend-item"><div class="legend-box booked-box"></div> Booked Parking</div>
             <div class="legend-item"><div class="legend-box occupied-box"></div> Occupied Parking</div>
-            <div class="legend-item"><div class="legend-box road-box"></div> Road</div> <!-- Matching road color -->
+            <div class="legend-item"><div class="legend-box road-box"></div> Road</div>
         </div>
         <div class="container" id="floorPlan"></div>
     </div>
@@ -329,21 +329,11 @@ video {
                     for (let i = 0; i < 8; i++) {
                         const parkingSpot = document.createElement("div");
                         parkingSpot.classList.add("parking-spot");
-                        parkingSpot.dataset.spotId = `${alphabet[roomCount-1]}${i+1}`; // Parking spots ordered alphabetically
-                        parkingSpot.innerText = `${alphabet[roomCount-1]}${i+1}`; // Labeling parking spots uniquely for each room
+                        parkingSpot.dataset.spotId = `${alphabet[roomCount-1]}${i+1}`;
+                        parkingSpot.innerText = `${alphabet[roomCount-1]}${i+1}`;
                         
-                        // Simulate real-time parking spot changes
-                        setTimeout(() => {
-                            // Simulating real-time spot status change
-                            const randomState = Math.floor(Math.random() * 3);
-                            if (randomState === 0) {
-                                parkingSpot.style.backgroundColor = "#4CAF50"; // Available (green)
-                            } else if (randomState === 1) {
-                                parkingSpot.style.backgroundColor = "#2196F3"; // Booked (blue)
-                            } else {
-                                parkingSpot.style.backgroundColor = "#FF0000"; // Occupied (red)
-                            }
-                        }, 2000); // This simulates real-time updates every 2 seconds
+                        // Real-time simulation for parking spots (remove this when real camera feed is available)
+                        parkingSpot.style.backgroundColor = i % 2 === 0 ? "#FF0000" : "#4CAF50"; // Simulate occupied/available spots
                         
                         parkingSpot.addEventListener("click", () => {
                             bookParkingSpot(parkingSpot);
@@ -351,7 +341,6 @@ video {
                         parkingContainer.appendChild(parkingSpot);
                     }
                     
-                    // Create real camera feed
                     const cameraFeed = document.createElement("video");
                     cameraFeed.setAttribute("id", `camera-${roomCount}`);
                     cameraFeed.setAttribute("autoplay", "");
@@ -364,23 +353,21 @@ video {
                 }
             }
 
-            // Add road exits inside the floor plan
             const roadExits = [
-                { className: 'road-exit-left', position: 'left' },
-                { className: 'road-exit-right', position: 'right' },
-                { className: 'road-exit-top', position: 'top' },
-                { className: 'road-exit-bottom', position: 'bottom' }
+                { className: 'road-exit-left', position: 'left', label: 'Exits(1)' },
+                { className: 'road-exit-right', position: 'right', label: 'Exits(2)' },
+                { className: 'road-exit-top', position: 'top', label: 'Exits(3)' },
+                { className: 'road-exit-bottom', position: 'bottom', label: 'Exits(4)' }
             ];
 
             roadExits.forEach(exit => {
                 const exitElement = document.createElement('div');
                 exitElement.classList.add('road-exit', exit.className);
-                exitElement.innerText = 'Road Exit';
+                exitElement.innerText = exit.label;
                 floorPlan.appendChild(exitElement);
             });
         }
 
-        // Function to book a parking spot
         function bookParkingSpot(spot) {
             if (spot.style.backgroundColor === 'rgb(76, 175, 80)') { // Available spot (green)
                 spot.style.backgroundColor = "#2196F3"; // Change to booked (blue)
