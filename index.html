@@ -417,62 +417,62 @@ video {
             }
         }
 
-        function updateBookedFloorPlan() {
-            document.getElementById("parking-plan").classList.add("hidden");
-            document.getElementById("booked-parking-plan").classList.remove("hidden");
+    function updateBookedFloorPlan() {
+        document.getElementById("parking-plan").classList.add("hidden");
+        document.getElementById("booked-parking-plan").classList.remove("hidden");
 
-            const bookedFloorPlan = document.getElementById("bookedFloorPlan");
-            bookedFloorPlan.innerHTML = ""; // Clear previous content
+        const bookedFloorPlan = document.getElementById("bookedFloorPlan");
+        bookedFloorPlan.innerHTML = ""; // Clear previous content
 
-            let roomCount = 1;
-            let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        let roomCount = 1;
+        let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-            for (let row = 0; row < 4; row++) {
-                for (let col = 0; col < 5; col++) {
-                    const cell = document.createElement("div");
-                    cell.classList.add("room");
-                    cell.innerText = `Room ${alphabet[roomCount - 1]}`;
+        for (let row = 0; row < 4; row++) {
+            for (let col = 0; col < 5; col++) {
+                const cell = document.createElement("div");
+                cell.classList.add("room");
+                cell.innerText = `Room ${alphabet[roomCount - 1]}`;
 
-                    const parkingContainer = document.createElement("div");
-                    parkingContainer.classList.add("parking-container");
+                const parkingContainer = document.createElement("div");
+                parkingContainer.classList.add("parking-container");
 
-                    for (let i = 0; i < 8; i++) {
-                        const parkingSpot = document.createElement("div");
-                        parkingSpot.classList.add("parking-spot");
-                        parkingSpot.dataset.spotId = `${alphabet[roomCount - 1]}${i + 1}`;
-                        parkingSpot.innerText = `${alphabet[roomCount - 1]}${i + 1}`;
+                for (let i = 0; i < 8; i++) {
+                    const parkingSpot = document.createElement("div");
+                    parkingSpot.classList.add("parking-spot");
+                    parkingSpot.dataset.spotId = `${alphabet[roomCount - 1]}${i + 1}`;
+                    parkingSpot.innerText = `${alphabet[roomCount - 1]}${i + 1}`;
 
-                        if (parkingSpot.dataset.spotId === bookedSpotId) {
-                            parkingSpot.style.backgroundColor = "#2196F3"; // Mark as booked
-                        } else {
-                            parkingSpot.style.backgroundColor = i % 2 === 0 ? "#FF0000" : "#4CAF50";
-                        }
-
-                        parkingSpot.addEventListener("click", () => bookParkingSpot(parkingSpot));
-                        parkingContainer.appendChild(parkingSpot);
+                    if (parkingSpot.dataset.spotId === bookedSpotId) {
+                        parkingSpot.style.backgroundColor = "#2196F3"; // Mark as booked
+                    } else {
+                        parkingSpot.style.backgroundColor = i % 2 === 0 ? "#FF0000" : "#4CAF50";
                     }
 
-                    cell.appendChild(parkingContainer);
-                    bookedFloorPlan.appendChild(cell);
-                    roomCount++;
+                    parkingContainer.appendChild(parkingSpot);
                 }
+
+                cell.appendChild(parkingContainer);
+                bookedFloorPlan.appendChild(cell);
+                roomCount++;
             }
-                // Add road exits
-                const roadExits = [
-                    { className: 'road-exit-left', label: 'Exits(1)' },
-                    { className: 'road-exit-right', label: 'Exits(2)' },
-                    { className: 'road-exit-top', label: 'Exits(3)' },
-                    { className: 'road-exit-bottom', label: 'Exits(4)' }
-                ];
-
-                roadExits.forEach(exit => {
-                    const exitElement = document.createElement('div');
-                    exitElement.classList.add('road-exit', exit.className);
-                    exitElement.innerText = exit.label;
-                    bookedFloorPlan.appendChild(exitElement);
-                });
         }
+        
+        // Add road exits
+        const roadExits = [
+            { className: 'road-exit-left', label: 'Exits(1)' },
+            { className: 'road-exit-right', label: 'Exits(2)' },
+            { className: 'road-exit-top', label: 'Exits(3)' },
+            { className: 'road-exit-bottom', label: 'Exits(4)' }
+        ];
 
-    </script>
+        roadExits.forEach(exit => {
+            const exitElement = document.createElement('div');
+            exitElement.classList.add('road-exit', exit.className);
+            exitElement.innerText = exit.label;
+            bookedFloorPlan.appendChild(exitElement);
+        });
+    }
+</script>
+
 </body>
 </html>
