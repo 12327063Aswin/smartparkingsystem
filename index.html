@@ -5,208 +5,211 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Smart Parking System</title>
     <style>
-body {
-    background-color: #121212;
-    color: #ffffff;
-    font-family: Arial, sans-serif;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    flex-direction: column;
-    text-align: center;
-    animation: fadeIn 2s ease-in-out;
-    position: relative;
-}
+        body {
+            background-color: black; /* Default background color */
+            background-image: url('Screenshot_20250221-100058.png'); /* Add your image URL here */
+            background-size: cover; /* Cover the entire viewport */
+            background-position: center; /* Center the image */
+            color: #ffffff;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            text-align: center;
+            animation: fadeIn 2s ease-in-out;
+            position: relative;
+        }
 
-h1, h2 {
-    font-size: 2.5em;
-    font-weight: bold;
-    margin-bottom: 20px;
-    animation: fadeIn 2s ease-in-out;
-}
+        h1, h2 {
+            font-size: 2.5em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            animation: fadeIn 2s ease-in-out;
+        }
 
-.hidden {
-    display: none;
-}
+        .hidden {
+            display: none;
+        }
 
-button {
-    background-color: #ff9800;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    font-size: 1.2em;
-    margin: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
+        button {
+            background-color: #ff9800;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            margin: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-button:hover {
-    background-color: #e68900;
-}
+        button:hover {
+            background-color: #e68900;
+        }
 
-input {
-    padding: 10px;
-    font-size: 1em;
-    border: 1px solid #fff;
-    border-radius: 5px;
-    margin: 5px;
-    background-color: #333;
-    color: white;
-}
+        input {
+            padding: 10px;
+            font-size: 1em;
+            border: 1px solid #fff;
+            border-radius: 5px;
+            margin: 5px;
+            background-color: #333;
+            color: white;
+        }
 
-#countdown {
-    font-size: 1.5em;
-    font-weight: bold;
-    color: #ff9800;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-}
-#parking-map {
-    margin-top: 20px;
-    width: 80%;
-    height: 300px;
-    background-color: #222;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #ff9800;
-    border-radius: 10px;
-    color: white;
-    font-size: 1.5em;
-}
+        #countdown {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #ff9800;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
 
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-}
+        #parking-map {
+            margin-top: 20px;
+            width: 80%;
+            height: 300px;
+            background-color: #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 2px solid #ff9800;
+            border-radius: 10px;
+            color: white;
+            font-size: 1.5em;
+        }
 
-.legend {
-    display: flex;
-    gap: 20px;
-    margin-bottom: 60px;
-    justify-content: center;
-}
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
 
-.legend-item {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    font-size: 14px;
-}
+        .legend {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 60px;
+            justify-content: center;
+        }
 
-.legend-box {
-    width: 20px;
-    height: 20px;
-    border: 1px solid #000;
-}
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 14px;
+        }
 
-.room-box { background-color: #ccc; }
-.parking-box { background-color: #4CAF50; }
-.booked-box { background-color: #2196F3; }
-.occupied-box { background-color: #FF0000; }
-.road-box { background-color: #888; }
+        .legend-box {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #000;
+        }
 
-.container {
-    display: grid;
-    grid-template-columns: repeat(5, 150px);
-    grid-template-rows: repeat(4, 150px);
-    gap: 10px;
-    background-color: #666;
-    padding: 20px;
-    border: 2px solid #000;
-    position: relative;
-    margin-top: 40px;
-}
+        .room-box { background-color: #ccc; }
+        .parking-box { background-color: #4CAF50; }
+        .booked-box { background-color: #2196F3; }
+        .occupied-box { background-color: #FF0000; }
+        .road-box { background-color: #888; }
 
-.room {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background-color: #ccc;
-    border: 2px solid #333;
-    font-size: 14px;
-    font-weight: bold;
-    text-align: center;
-    position: relative;
-    padding: 5px;
-    cursor: pointer;
-    transition: transform 0.2s;
-}
+        .container {
+            display: grid;
+            grid-template-columns: repeat(5, 150px);
+            grid-template-rows: repeat(4, 150px);
+            gap: 10px;
+            background-color: #666;
+            padding: 20px;
+            border: 2px solid #000;
+            position: relative;
+            margin-top: 40px;
+        }
 
-.room:hover {
-    transform: scale(1.05);
-    background-color: #bbb;
-}
+        .room {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-color: #ccc;
+            border: 2px solid #333;
+            font-size: 14px;
+            font-weight: bold;
+            text-align: center;
+            position: relative;
+            padding: 5px;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
 
-.parking-container {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    grid-template-rows: repeat(2, 1fr);
-    gap: 2px;
-    width: 100%;
-    margin-top: 5px;
-    justify-items: center;
-}
+        .room:hover {
+            transform: scale(1.05);
+            background-color: #bbb;
+        }
 
-.parking-spot {
-    width: 30px;
-    height: 50px;
-    background-color: #4CAF50;
-    border: 1px solid #000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-weight: bold;
-    font-size: 12px;
-    cursor: pointer;
-    transition: background 0.3s;
-}
+        .parking-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 1fr);
+            gap: 2px;
+            width: 100%;
+            margin-top: 5px;
+            justify-items: center;
+        }
 
-.parking-spot:hover {
-    background-color: #e68900;
-}
+        .parking-spot {
+            width: 30px;
+            height: 50px;
+            background-color: #4CAF50;
+            border: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
 
-.camera-feed {
-    width: 100px;
-    height: 60px;
-    background-color: black;
-    margin-top: 5px;
-    color: white;
-    font-size: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+        .parking-spot:hover {
+            background-color: #e68900;
+        }
 
-video {
-    width: 100px;
-    height: 60px;
-    object-fit: cover;
-}
+        .camera-feed {
+            width: 100px;
+            height: 60px;
+            background-color: black;
+            margin-top: 5px;
+            color: white;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
 
-/* Road exits inside the floor plan */
-.road-exit {
-    background-color: #888;
-    font-size: 12px;
-    font-weight: bold;
-    text-align: center;
-    padding: 5px;
-    position: absolute;
-    width: 80px;
-    height: 30px;
-    border-radius: 4px;
-}
+        video {
+            width: 100px;
+            height: 60px;
+            object-fit: cover;
+        }
 
-.road-exit-left { left: -80px; top: 50%; transform: translateY(-50%); }
-.road-exit-right { right: -80px; top: 50%; transform: translateY(-50%); }
-.road-exit-top { top: -35px; left: 50%; transform: translateX(-50%); }
-.road-exit-bottom { bottom: -35px; left: 50%; transform: translateX(-50%); }
+        /* Road exits inside the floor plan */
+        .road-exit {
+            background-color: #888;
+            font-size: 12px;
+            font-weight: bold;
+            text-align: center;
+            padding: 5px;
+            position: absolute;
+            width: 80px;
+            height: 30px;
+            border-radius: 4px;
+        }
 
+        .road-exit-left { left: -80px; top: 50%; transform: translateY(-50%); }
+        .road-exit-right { right: -80px; top: 50%; transform: translateY(-50%); }
+        .road-exit-top { top: -35px; left: 50%; transform: translateX(-50%); }
+        .road-exit-bottom { bottom: -35px; left: 50%; transform: translateX(-50%); }
     </style>
 </head>
 <body onload="playWelcomeMessage()">
@@ -266,6 +269,23 @@ video {
     </div>
 
     <script>
+        const imageUrl = 'Screenshot_20250221-100058.png'; // Replace with your image URL
+        const body = document.body;
+
+        // Create an image element to check if it loads
+        const img = new Image();
+        img.src = imageUrl;
+
+        img.onload = function() {
+            // If the image loads successfully, set it as the background
+            body.style.backgroundImage = `url('${imageUrl}')`;
+        };
+
+        img.onerror = function() {
+            // If the image fails to load, keep the black background
+            body.style.backgroundColor = 'black';
+        };
+
         function speakMessage(text) {
             const message = new SpeechSynthesisUtterance(text);
             message.lang = "en-US";
@@ -304,6 +324,7 @@ video {
         function startCountdown(seconds) {
             document.getElementById("timer-screen").classList.add("hidden");
             document.getElementById("exit-entry-screen").classList.remove("hidden");
+            speakMessage("Select Exit Entry"); // Announce when the exit entry screen is shown
             
             let remainingTime = seconds;
             const countdownElement = document.getElementById("countdown");
@@ -331,6 +352,7 @@ video {
             speakMessage(`${exit} selected. Moving to parking floor plan.`);
             document.getElementById("exit-entry-screen").classList.add("hidden");
             document.getElementById("parking-plan").classList.remove("hidden");
+            speakMessage("Parking Floor Plan");
             initFloorPlan(); // Initialize the floor plan after exit selection
         }
 
@@ -393,21 +415,9 @@ video {
         function bookParkingSpot(spot) {
             if (spot.style.backgroundColor === 'rgb(76, 175, 80)') { // Available spot (green)
                 spot.style.backgroundColor = "#2196F3"; // Change to booked (blue)
-                alert(`Parking Spot ${spot.dataset.spotId} has been booked.`);
-            } else if (spot.style.backgroundColor === 'rgb(33, 150, 243)') { // Booked spot (blue)
-                alert(`Parking Spot ${spot.dataset.spotId} is already booked.`);
-            } else {
-                alert(`Parking Spot ${spot.dataset.spotId} is occupied.`);
-            }
-        }
-    let bookedSpotId = null;
-        let bookedRoom = null; // Store the booked room element
-
-        function bookParkingSpot(spot) {
-            if (spot.style.backgroundColor === 'rgb(76, 175, 80)') { // Available spot (green)
-                spot.style.backgroundColor = "#2196F3"; // Change to booked (blue)
                 bookedSpotId = spot.dataset.spotId; // Save booked spot ID
                 bookedRoom = spot.closest('.room'); // Get the parent room element
+                speakMessage(`Parking Spot ${bookedSpotId} has been booked.`);
                 alert(`Parking Spot ${bookedSpotId} has been booked.`);
                 updateBookedFloorPlan(); // Update new floor plan with booked spot
             } else if (spot.style.backgroundColor === 'rgb(33, 150, 243)') { // Already booked (blue)
@@ -417,62 +427,63 @@ video {
             }
         }
 
-    function updateBookedFloorPlan() {
-        document.getElementById("parking-plan").classList.add("hidden");
-        document.getElementById("booked-parking-plan").classList.remove("hidden");
+        function updateBookedFloorPlan() {
+            document.getElementById("parking-plan").classList.add("hidden");
+            document.getElementById("booked-parking-plan").classList.remove("hidden");
+            speakMessage("Booked Spot");
 
-        const bookedFloorPlan = document.getElementById("bookedFloorPlan");
-        bookedFloorPlan.innerHTML = ""; // Clear previous content
+            const bookedFloorPlan = document.getElementById("bookedFloorPlan");
+            bookedFloorPlan.innerHTML = ""; // Clear previous content
 
-        let roomCount = 1;
-        let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+            let roomCount = 1;
+            let alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 
-        for (let row = 0; row < 4; row++) {
-            for (let col = 0; col < 5; col++) {
-                const cell = document.createElement("div");
-                cell.classList.add("room");
-                cell.innerText = `Room ${alphabet[roomCount - 1]}`;
+            for (let row = 0; row < 4; row++) {
+                for (let col = 0; col < 5; col++) {
+                    const cell = document.createElement("div");
+                    cell.classList.add("room");
+                    cell.innerText = `Room ${alphabet[roomCount - 1]}`;
 
-                const parkingContainer = document.createElement("div");
-                parkingContainer.classList.add("parking-container");
+                    const parkingContainer = document.createElement("div");
+                    parkingContainer.classList.add("parking-container");
 
-                for (let i = 0; i < 8; i++) {
-                    const parkingSpot = document.createElement("div");
-                    parkingSpot.classList.add("parking-spot");
-                    parkingSpot.dataset.spotId = `${alphabet[roomCount - 1]}${i + 1}`;
-                    parkingSpot.innerText = `${alphabet[roomCount - 1]}${i + 1}`;
+                    for (let i = 0; i < 8; i++) {
+                        const parkingSpot = document.createElement("div");
+                        parkingSpot.classList.add("parking-spot");
+                        parkingSpot.dataset.spotId = `${alphabet[roomCount - 1]}${i + 1}`;
+                        parkingSpot.innerText = `${alphabet[roomCount - 1]}${i + 1}`;
 
-                    if (parkingSpot.dataset.spotId === bookedSpotId) {
-                        parkingSpot.style.backgroundColor = "#2196F3"; // Mark as booked
-                    } else {
-                        parkingSpot.style.backgroundColor = i % 2 === 0 ? "#FF0000" : "#4CAF50";
+                        if (parkingSpot.dataset.spotId === bookedSpotId) {
+                            parkingSpot.style.backgroundColor = "#2196F3"; // Mark as booked
+                        } else {
+                            parkingSpot.style.backgroundColor = i % 2 === 0 ? "#FF0000" : "#4CAF50";
+                        }
+
+                        parkingContainer.appendChild(parkingSpot);
                     }
 
-                    parkingContainer.appendChild(parkingSpot);
+                    cell.appendChild(parkingContainer);
+                    bookedFloorPlan.appendChild(cell);
+                    roomCount++;
                 }
-
-                cell.appendChild(parkingContainer);
-                bookedFloorPlan.appendChild(cell);
-                roomCount++;
             }
-        }
-        
-        // Add road exits
-        const roadExits = [
-            { className: 'road-exit-left', label: 'Exits(1)' },
-            { className: 'road-exit-right', label: 'Exits(2)' },
-            { className: 'road-exit-top', label: 'Exits(3)' },
-            { className: 'road-exit-bottom', label: 'Exits(4)' }
-        ];
+            
+            // Add road exits
+            const roadExits = [
+                { className: 'road-exit-left', label: 'Exits(1)' },
+                { className: 'road-exit-right', label: 'Exits(2)' },
+                { className: 'road-exit-top', label: 'Exits(3)' },
+                { className: 'road-exit-bottom', label: 'Exits(4)' }
+            ];
 
-        roadExits.forEach(exit => {
-            const exitElement = document.createElement('div');
-            exitElement.classList.add('road-exit', exit.className);
-            exitElement.innerText = exit.label;
-            bookedFloorPlan.appendChild(exitElement);
-        });
-    }
-</script>
+            roadExits.forEach(exit => {
+                const exitElement = document.createElement('div');
+                exitElement.classList.add('road-exit', exit.className);
+                exitElement.innerText = exit.label;
+                bookedFloorPlan.appendChild(exitElement);
+            });
+        }
+    </script>
 
 </body>
 </html>
